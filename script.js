@@ -82,3 +82,47 @@ async function appendToStory(text) {
     await typeWriterEffect(text, paragraph);
     storyText.scrollTop = storyText.scrollHeight;
 }
+
+document.getElementById('create-character').addEventListener('click', () => {
+    player.name = document.getElementById('character-name').value;
+    player.class = document.getElementById('character-class').value;
+    characterCreation.classList.add('hidden');
+    gameArea.classList.remove('hidden');
+    updatePlayerStats();
+    startGame();
+});
+
+function updatePlayerStats() {
+    playerStats.innerHTML = `
+        <h3>Explorer Stats</h3>
+        <p>Name: ${player.name}</p>
+        <p>Class: ${player.class}</p>
+        <p>Health: ${player.health}%</p>
+        <p>Oxygen: ${player.oxygen}%</p>
+    `;
+    inventoryDisplay.innerHTML = `
+        <h3>Inventory</h3>
+        <ul>${player.inventory.map(item => `<li>${item}</li>`).join('')}</ul>
+    `;
+}
+
+async function startGame() {
+    const prompt = `You are the AI game master for a space exploration text adventure. The player, ${player.name}, a ${player.class}, has just awakened from cryosleep aboard their spacecraft. Emergency lights are flashing. Provide a brief, engaging opening scenario and ask for the player's first action.`;
+    
+    try {
+        const response = await runChat(prompt);
+        await appendToStory(response);
+    } catch (error) {
+        console.error("Error starting game:", error);
+        await appendToStory("Error initializing the game. Please try again.");
+    }
+}
+
+submitAction.addEventListener('click', async () => {
+    const action = playerInput.value.trim();
+    if (action) {
+        await appendToStory(`You: ${action}`);
+        await handlePlayerAction(action);
+        playerInput.value = '';
+    }
+});
