@@ -126,3 +126,35 @@ submitAction.addEventListener('click', async () => {
         playerInput.value = '';
     }
 });
+
+async function handlePlayerAction(action) {
+    const prompt = `Continue the space exploration adventure. The player, ${player.name}, a ${player.class}, takes this action: "${action}". Current stats: Health ${player.health}%, Oxygen ${player.oxygen}%. Inventory: ${player.inventory.join(', ')}. Provide a brief, engaging response to the action, including any consequences or discoveries. Then prompt for the next action.`;
+
+    try {
+        const response = await runChat(prompt);
+        await appendToStory(response);
+        updateGameState(response);
+    } catch (error) {
+        console.error("Error handling player action:", error);
+        await appendToStory("Error processing your action. Please try again.");
+    }
+}
+
+function updateGameState(responseText) {
+    if (responseText.toLowerCase().includes('health decreases')) {
+        player.health -= 10;
+    }
+    if (responseText.toLowerCase().includes('oxygen depletes')) {
+        player.oxygen -= 10;
+    }
+    if (responseText.toLowerCase().includes('found')) {
+        player.inventory.push('New Item');
+    }
+    updatePlayerStats();
+}
+
+playerInput.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') {
+        submitAction.click();
+    }
+});
