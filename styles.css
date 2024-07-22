@@ -53,6 +53,48 @@ body {
     right: 0;
     bottom: 0;
     width: 100%;
-   
+}
 
+#stars3 {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: block;
+    right: 0;
+    bottom: 0;
+}
+
+#stars {
+    background: transparent url('http://www.script-tutorials.com/demos/360/images/stars.png') repeat top center;
+    z-index: 0;
+    animation: animateStars 50s linear infinite;
+}
+
+#stars2 {
+    background: transparent url('http://www.script-tutorials.com/demos/360/images/stars2.png') repeat top center;
+    z-index: 1;
+    animation: animateStars 100s linear infinite;
+}
+
+#stars3 {
+    background: transparent url('http://www.script-tutorials.com/demos/360/images/stars3.png') repeat top center;
+    z-index: 2;
+    animation: animateStars 150s linear infinite;
+}
+
+#game-container {
+    position: relative;
+    z-index: 3;
+    margin: 0 auto;
+    max-width: 850px;
+    margin-top: 50px;
+    padding: 20px;
+    max-height: 80vh;
+    overflow-y: auto;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(5px);
 }
