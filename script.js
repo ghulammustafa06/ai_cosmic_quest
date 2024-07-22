@@ -36,3 +36,49 @@ async function runChat(userInput) {
             headers: headers,
             body: JSON.stringify(data)
         });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const result = await response.json();
+        return result.candidates[0].content.parts[0].text;
+    } catch (error) {
+        console.error("Error calling Gemini API:", error);
+        return "Error processing your request. Please try again.";
+    }
+}
+
+function appendToStory(text) {
+    storyText.innerHTML += `<p>${text}</p>`;
+    storyText.scrollTop = storyText.scrollHeight;
+    gameContainer.scrollTop = gameContainer.scrollHeight;
+}
+
+function appendToStory(text) {
+    storyText.innerHTML += `<p>${text}</p>`;
+    storyText.scrollTop = storyText.scrollHeight;
+    gameContainer.scrollTop = gameContainer.scrollHeight;
+}
+
+function playTypewriterSound() {
+    const sound = new Audio('typewriter_clicks.mp3');
+    sound.volume = 0.5;
+    sound.playbackRate = 2; 
+    sound.play().catch(e => console.error("Error playing sound:", e));
+}
+
+async function typeWriterEffect(text, element) {
+    for (let i = 0; i < text.length; i++) {
+        element.textContent += text.charAt(i);
+        playTypewriterSound();
+        await new Promise(resolve => setTimeout(resolve, 50)); 
+    }
+}
+
+async function appendToStory(text) {
+    const paragraph = document.createElement('p');
+    storyText.appendChild(paragraph);
+    await typeWriterEffect(text, paragraph);
+    storyText.scrollTop = storyText.scrollHeight;
+}
