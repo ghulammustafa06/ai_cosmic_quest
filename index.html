@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cosmic Quest</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div id="stars"></div>
+    <div id="stars2"></div>
+    <div id="stars3"></div>
+    <div id="game-container">
+        <header>
+            <h1>Cosmic Quest</h1>
+        </header>
+        <main>
+            <div id="character-creation" class="section">
+                <h2>Space Adventure - Your Space Explorer</h2>
+                <form id="character-form">
+                    <input type="text" id="character-name" placeholder="Enter explorer name" required>
+                    <select id="character-class" required>
+                        <option value="" disabled selected>Select your class</option>
+                        <option value="astronaut">Astronaut</option>
+                        <option value="engineer">Engineer</option>
+                        <option value="scientist">Scientist</option>
+                    </select>
+                    <button type="submit" id="create-character">Begin Adventure</button>
+                </form>
+            </div>
+            <div id="game-area" class="section hidden">
+                <div id="story-text"></div>
+                <div id="player-info">
+                    <div id="player-stats"></div>
+                    <div id="inventory"></div>
+                </div>
+                <div id="action-area">
+                    <input type="text" id="player-input" placeholder="What will you do?">
+                    <button id="submit-action">Take Action</button>
+                </div>
+            </div>
+        </main>
+        <footer>
+            <p>&copy; 2024 Cosmic Quest. Develop By GM. With Love</p>
+        </footer>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
