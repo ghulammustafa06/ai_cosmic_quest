@@ -164,3 +164,50 @@ button {
     cursor: pointer;
     transition: all 0.3s ease;
 }
+
+button:hover {
+    background-color: #ff69b4;
+    box-shadow: 0 0 10px #ff00ff;
+}
+
+#story-text {
+    height: 200px;
+    overflow-y: scroll;
+    border: 1px solid #00ffff;
+    padding: 10px;
+    margin-bottom: 10px;
+    max-height: 300px;
+    overflow-y: auto;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+#player-stats {
+    display: inline-block;
+    width: 48%;
+    vertical-align: top;
+}
+
+
+#inventory {
+    display: inline-block;
+    width: 48%;
+    vertical-align: top;
+}
+
+#input-area {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    right: 20px;
+}
+
+#player-input {
+    width: calc(100% - 110px); 
+    display: inline-block;
+    margin-right: 10px;
+}
+
+#submit-action {
+    width: 100px; 
+    display: inline-block;
+}
