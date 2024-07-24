@@ -211,3 +211,59 @@ button:hover {
     width: 100px; 
     display: inline-block;
 }
+
+.hidden {
+    display: none;
+}
+
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: #1B2735;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #00ffff;
+    border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #ff00ff;
+}
+
+footer {
+    text-align: center;
+    margin-top: 40px;
+    color: #00ffff34;
+}
+
+.typewriter {
+    border-right: 2px solid #00ffff;
+    white-space: nowrap;
+    overflow: hidden;
+    animation: typing 3.5s steps(40, end), blink-caret .75s step-end infinite;
+}
+
+@keyframes typing {
+    from {
+        width: 0
+    }
+
+    to {
+        width: 100%
+    }
+}
+
+@keyframes blink-caret {
+
+    from,
+    to {
+        border-color: transparent
+    }
+
+    50% {
+        border-color: #00ffff;
+    }
+}
