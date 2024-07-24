@@ -1,8 +1,14 @@
 const API_KEY = 'API_KEY'; 
 // I'm not going to provide the API key here, but you can get one from the Google Cloud Platform.
 
-const gameTitle = document.getElementById('game-title');
 const gameContainer = document.getElementById('game-container');
+const characterCreation = document.getElementById('character-creation');
+const gameArea = document.getElementById('game-area');
+const storyText = document.getElementById('story-text');
+const playerStats = document.getElementById('player-stats');
+const inventoryDisplay = document.getElementById('inventory');
+const playerInput = document.getElementById('player-input');
+const submitAction = document.getElementById('submit-action');
 
 let player = {
     name: '',
@@ -12,23 +18,10 @@ let player = {
     inventory: []
 };
 
-const characterCreation = document.getElementById('character-creation');
-const gameArea = document.getElementById('game-area');
-const storyText = document.getElementById('story-text');
-const playerStats = document.getElementById('player-stats');
-const inventoryDisplay = document.getElementById('inventory');
-const playerInput = document.getElementById('player-input');
-const submitAction = document.getElementById('submit-action');
-
 async function runChat(userInput) {
     const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${API_KEY}`;
-    const headers = {
-        'Content-Type': 'application/json'
-    };
-
-    const data = {
-        contents: [{ parts: [{ text: userInput }] }]
-    };
+    const headers = { 'Content-Type': 'application/json' };
+    const data = { contents: [{ parts: [{ text: userInput }] }] };
 
     try {
         const response = await fetch(url, {
@@ -47,18 +40,6 @@ async function runChat(userInput) {
         console.error("Error calling Gemini API:", error);
         return "Error processing your request. Please try again.";
     }
-}
-
-function appendToStory(text) {
-    storyText.innerHTML += `<p>${text}</p>`;
-    storyText.scrollTop = storyText.scrollHeight;
-    gameContainer.scrollTop = gameContainer.scrollHeight;
-}
-
-function appendToStory(text) {
-    storyText.innerHTML += `<p>${text}</p>`;
-    storyText.scrollTop = storyText.scrollHeight;
-    gameContainer.scrollTop = gameContainer.scrollHeight;
 }
 
 function playTypewriterSound() {
@@ -81,16 +62,8 @@ async function appendToStory(text) {
     storyText.appendChild(paragraph);
     await typeWriterEffect(text, paragraph);
     storyText.scrollTop = storyText.scrollHeight;
+    gameContainer.scrollTop = gameContainer.scrollHeight;
 }
-
-document.getElementById('create-character').addEventListener('click', () => {
-    player.name = document.getElementById('character-name').value;
-    player.class = document.getElementById('character-class').value;
-    characterCreation.classList.add('hidden');
-    gameArea.classList.remove('hidden');
-    updatePlayerStats();
-    startGame();
-});
 
 function updatePlayerStats() {
     playerStats.innerHTML = `
@@ -118,16 +91,11 @@ async function startGame() {
     }
 }
 
-submitAction.addEventListener('click', async () => {
-    const action = playerInput.value.trim();
-    if (action) {
-        await appendToStory(`You: ${action}`);
-        await handlePlayerAction(action);
-        playerInput.value = '';
-    }
-});
-
 async function handlePlayerAction(action) {
+    if (handleQuickCommands(action)) {
+        return;
+    }
+
     const prompt = `Continue the space exploration adventure. The player, ${player.name}, a ${player.class}, takes this action: "${action}". Current stats: Health ${player.health}%, Oxygen ${player.oxygen}%. Inventory: ${player.inventory.join(', ')}. Provide a brief, engaging response to the action, including any consequences or discoveries. Then prompt for the next action.`;
 
     try {
@@ -153,8 +121,69 @@ function updateGameState(responseText) {
     updatePlayerStats();
 }
 
+function handleQuickCommands(input) {
+    const commands = {
+        '/help': () => appendToStory("Available commands: /help, /stats, /inv, /save, /load"),
+        '/stats': () => appendToStory(`Health: ${player.health}%, Oxygen: ${player.oxygen}%`),
+        '/inv': () => appendToStory(`Inventory: ${player.inventory.join(', ') || 'Empty'}`),
+        '/save': saveGame,
+        '/load': loadGame
+    };
+
+    const command = commands[input.toLowerCase()];
+    if (command) {
+        command();
+        return true;
+    }
+    return false;
+}
+
+function saveGame() {
+    localStorage.setItem('cosmicQuestSaveData', JSON.stringify(player));
+    appendToStory("Game saved successfully.");
+}
+
+function loadGame() {
+    const savedGame = localStorage.getItem('cosmicQuestSaveData');
+    if (savedGame) {
+        player = JSON.parse(savedGame);
+        updatePlayerStats();
+        appendToStory("Game loaded successfully. Welcome back, " + player.name + "!");
+    } else {
+        appendToStory("No saved game found.");
+    }
+}
+
+document.getElementById('create-character').addEventListener('click', () => {
+    player.name = document.getElementById('character-name').value;
+    player.class = document.getElementById('character-class').value;
+    characterCreation.classList.add('hidden');
+    gameArea.classList.remove('hidden');
+    updatePlayerStats();
+    startGame();
+});
+
+submitAction.addEventListener('click', async () => {
+    const action = playerInput.value.trim();
+    if (action) {
+        await appendToStory(`You: ${action}`);
+        await handlePlayerAction(action);
+        playerInput.value = '';
+    }
+});
+
 playerInput.addEventListener('keypress', (e) => {
     if (e.key === 'Enter') {
         submitAction.click();
     }
 });
+
+
+function initGame() {
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('load') === 'true') {
+        loadGame();
+    }
+}
+
+initGame();
