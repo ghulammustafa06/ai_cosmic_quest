@@ -267,3 +267,96 @@ footer {
         border-color: #00ffff;
     }
 }
+
+@media (max-width: 768px) {
+    #game-container {
+        max-width: 90%;
+        margin-top: 20px;
+        padding: 15px;
+    }
+    #player-stats, #inventory {
+        display: block;
+        width: 100%;
+        margin-bottom: 20px;
+    }
+    #input-area {
+        position: static;
+        margin-top: 20px;
+    }
+    #player-input, #submit-action {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+    .links {
+        position: static;
+        text-align: center;
+        margin-top: 20px;
+    }
+    .links li {
+        display: block;
+        margin: 10px 0;
+    }
+    h1, h2 {
+        font-size: 1.2em;
+        margin-bottom: 10px;
+    }
+    footer {
+        font-size: 0.8em;
+    }
+
+
+}
+
+@media (max-width: 480px) {
+    h1, h2 {
+        font-size: 0.8em;
+        margin-bottom: 10px;
+    }
+    select, button, input {
+        padding: 8px;
+    }
+    #story-text {
+        height: 150px;
+    }
+    footer {
+        font-size: 0.5em;
+    }
+    
+    #game-container {
+        padding: 10px;
+    }
+
+    #player-stats, #inventory {
+        display: block;
+        width: 100%;
+        margin-bottom: 20px;
+    }
+
+    #input-area {
+        position: static;
+        margin-top: 20px;
+    }
+
+    #player-input, #submit-action {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+
+    .links {
+        position: static;
+        text-align: center;
+        margin-top: 10px;
+    }
+
+    .links ul li {
+        display: block;
+        margin: 10px 0;
+    }
+
+    .links a {
+        color: #00ffff;
+        text-decoration: none;
+        transition: color 0.3s ease, text-shadow 0.3s ease;
+        font-size: 13px;
+    }
+}
